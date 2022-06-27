@@ -1,6 +1,6 @@
-# track_link
+# Track Link
 
-A new Flutter project.
+An app to help collate object detections into tracks for generating training data.
 
 ## Getting Started
 
