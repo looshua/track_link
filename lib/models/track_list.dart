@@ -35,4 +35,8 @@ class TrackList extends ChangeNotifier {
   TrackObject? getTrackByIndex(int index) {
     return _trackData.values.elementAt(index);
   }
+
+  List getTrackFramesSorted() {
+    return _trackData.keys.toList()..sort();
+  }
 }

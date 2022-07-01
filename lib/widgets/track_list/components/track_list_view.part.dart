@@ -13,17 +13,17 @@ class TrackListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var trackList = context.watch<TrackList>();
+    var sortedFrames = trackList.getTrackFramesSorted();
 
     return ListView.builder(
       itemCount: trackList.getLength(),
       itemBuilder: (BuildContext context, int index) {
-        TrackObject? track = trackList.getTrackByIndex(index);
+        if (sortedFrames[index] == null) return Container();
 
-        if (track == null) {
-          return Container();
-        }
-
-        return TrackTile(track: track);
+        return TrackTile(
+          trackList: trackList, 
+          frame: frame
+        );
       },
     );
   }

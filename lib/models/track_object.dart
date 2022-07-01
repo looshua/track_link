@@ -28,4 +28,8 @@ class TrackObject extends ChangeNotifier {
     _targetData.remove(frame);
     notifyListeners();
   }
+
+  TargetObject? getTargetByFrame(int frame) {
+    return _targetData[frame];
+  }
 }

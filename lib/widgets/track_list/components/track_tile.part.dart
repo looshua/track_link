@@ -6,14 +6,31 @@ import 'package:track_link/models/track_object.dart';
 
 class TrackTile extends StatelessWidget {
   const TrackTile({
-    required this.track,
+    required this.trackList,
+    required this.frame,
     Key? key,
   }) : super(key: key);
 
-  final TrackObject track;
+  final TrackList trackList;
+  final int frame;
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    TrackObject? track = trackList[frame];
+
+    // null check
+    if (track == null) return Container();
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text('Frame $frame', textAlign: TextAlign.left,),
+          ),
+
+        ]
+      )
+    );
   }
 }
