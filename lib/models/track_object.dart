@@ -32,4 +32,8 @@ class TrackObject extends ChangeNotifier {
   TargetObject? getTargetByFrame(int frame) {
     return _targetData[frame];
   }
+
+  List<int>? getTargetsInFrameOrder() {
+    return _targetData.keys.toList()..sort();
+  }
 }

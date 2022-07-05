@@ -1,4 +1,3 @@
-import 'package:track_link/models/target_object.dart';
 import 'package:track_link/models/track_object.dart';
 import 'package:flutter/foundation.dart';
 
@@ -36,7 +35,7 @@ class TrackList extends ChangeNotifier {
     return _trackData.values.elementAt(index);
   }
 
-  List getTrackFramesSorted() {
+  List<int>? getTrackIDsSorted() {
     return _trackData.keys.toList()..sort();
   }
 }

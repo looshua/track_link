@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:track_link/models/track_list.dart';
 import 'package:track_link/widgets/track_list/components/track_list_view.part.dart';
 
 class TrackListWidget extends StatelessWidget {
@@ -8,6 +7,11 @@ class TrackListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tracks'),
+        
+      )
+    );
   }
 }
