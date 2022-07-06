@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 
-import 'package:track_link/models/track_list.dart';
 import 'package:track_link/models/target_object.dart';
+import 'package:track_link/models/detect_list.dart';
 
 
-class TrackFrameTile extends StatelessWidget {
-  const TrackFrameTile({
-    required this.trackList,
-    required this.id,
+class DetectFrameTile extends StatelessWidget {
+  const DetectFrameTile({
+    required this.detectList,
     required this.frame,
+    required this.index,
     Key? key
   }) : super(key: key);
 
-  final TrackList trackList;
-  final int id;
+  final DetectList detectList;
   final int frame;
+  final int index;
 
   void _deleteTarget() {
-    trackList.removeTrackFrame(id, frame);
+    detectList.removeTargetByFrameIndex(frame, index);
   }
 
   @override
   Widget build(BuildContext context) {
-    TargetObject? target = trackList.getTrackByID(id)?.getTargetByFrame(frame);
+    TargetObject? target = detectList.getTargetByFrameIndex(frame, index);
     if (target == null) return Container(); 
 
     return ListTile(

@@ -32,7 +32,7 @@ class TrackTile extends StatelessWidget {
 
     if (frames == null) return Container();
     frames.forEach(((element) => targetTiles.add(
-      TrackFrameTile(track: track, frame: element)))
+      TrackFrameTile(trackList: trackList, id: id, frame: element)))
     );
 
     // generate expandable tile

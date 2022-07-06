@@ -23,6 +23,11 @@ class TrackList extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeTrackFrame(int id, int frame) {
+    _trackData[id]?.removeTarget(frame);
+    notifyListeners();
+  }
+
   int getLength() {
     return _trackData.length;
   }
@@ -37,5 +42,13 @@ class TrackList extends ChangeNotifier {
 
   List<int>? getTrackIDsSorted() {
     return _trackData.keys.toList()..sort();
+  }
+
+  void addDummyTrack() {
+    TrackObject dummy = TrackObject(_idCounter);
+    dummy.addDummyTargets(10);
+    _trackData[_idCounter] = dummy;
+    _idCounter++;
+    notifyListeners();
   }
 }

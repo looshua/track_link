@@ -36,4 +36,11 @@ class TrackObject extends ChangeNotifier {
   List<int>? getTargetsInFrameOrder() {
     return _targetData.keys.toList()..sort();
   }
+
+  void addDummyTargets(int n){
+    for (int i = 0; i < n; i++) {
+      TargetObject toAdd = TargetObject(i, id, 1, 1, 1, 1);
+      _targetData[i] = toAdd;
+    }
+  }
 }
