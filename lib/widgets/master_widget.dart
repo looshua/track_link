@@ -17,19 +17,19 @@ class MasterWidget extends StatelessWidget {
       ),
       body: Row(
         children: <Widget>[
-            Column(
-              children: const <Widget>[
-                TrackListWidget(),
-                DetectListWidget(),
-              ],
-            ),
+          Column(
+            children: const <Widget>[
+              TrackListWidget(),
+              DetectListWidget(),
+            ],
+          ),
             
-          // Column(
-          //   children: const <Widget>[
-          //     VideoLoaderWidget(),
-          //     VideoControlWidget(),
-          //   ],
-          // ),
+          Column(
+            children: const <Widget>[
+              VideoLoaderWidget(),
+              VideoControlWidget(),
+            ],
+          ),
         ],
       ),
     );

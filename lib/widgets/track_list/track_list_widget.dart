@@ -7,7 +7,7 @@ class TrackListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     var appBar = AppBar();
+    var appBar = AppBar();
     return SizedBox(
       height: (MediaQuery.of(context).size.height - appBar.preferredSize.height) / 2,
       width: 400,

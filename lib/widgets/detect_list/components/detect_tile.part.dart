@@ -27,7 +27,7 @@ class DetectFrameTile extends StatelessWidget {
 
     return ListTile(
       title: Text(
-        "Frame $frame"
+        "Detection $index"
       ),
       trailing: IconButton(
         icon: const Icon(Icons.delete_forever_rounded),
