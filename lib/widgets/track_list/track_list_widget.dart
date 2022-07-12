@@ -8,15 +8,16 @@ class TrackListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appBar = AppBar();
-    return SizedBox(
-      height: (MediaQuery.of(context).size.height - appBar.preferredSize.height) / 2,
-      width: 400,
+    var maxHeight =
+        (MediaQuery.of(context).size.height - appBar.preferredSize.height) / 2;
+
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+          maxHeight: maxHeight, minHeight: 200, maxWidth: 400, minWidth: 200),
       child: Column(
         children: const <Widget>[
           Text("Tracks"),
-          Expanded(
-            child: TrackListView()
-          ),
+          Expanded(child: TrackListView()),
         ],
       ),
     );

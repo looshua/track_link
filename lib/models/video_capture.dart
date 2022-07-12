@@ -19,21 +19,48 @@ class VideoCapture extends ChangeNotifier {
   }
 
   int getMaxVisibleHistory(int limit) {
-    return (activeFrame > limit) ? -limit : activeFrame - limit;
+    return (activeFrame > limit) ? -limit : -activeFrame;
   }
 
   int getMaxVisibleFuture(int limit) {
     return (activeFrame + limit < maxFrames) ? limit : maxFrames - activeFrame;
   }
 
-  set setDetHistory(int hist) {_visibleDetHistory = hist;}
+  void setActiveFrame(int frame) {
+    if (frame < 0) {
+      activeFrame = 0;
+    } else if (frame > maxFrames) {
+      activeFrame = maxFrames;
+    } else {
+      activeFrame = frame;
+    }
+    notifyListeners();
+  }
+
+  set setDetHistory(int hist) {
+    _visibleDetHistory = hist;
+    notifyListeners();
+  }
+
   int get getDetHistory => _visibleDetHistory;
-  set setDetFuture(int fut) {_visibleDetFuture = fut;}
+  set setDetFuture(int fut) {
+    _visibleDetFuture = fut;
+    notifyListeners();
+  }
+
   int get getDetFuture => _visibleDetFuture;
 
-  set setTrackHistory(int hist) {_visibleTrackHistory = hist;}
+  set setTrackHistory(int hist) {
+    _visibleTrackHistory = hist;
+    notifyListeners();
+  }
+
   int get getTrackHistory => _visibleTrackHistory;
-  set setTrackFuture(int fut) {_visibleTrackFuture = fut;}
+  set setTrackFuture(int fut) {
+    _visibleTrackFuture = fut;
+    notifyListeners();
+  }
+
   int get getTrackFuture => _visibleTrackFuture;
 
   void setUpDummy() {

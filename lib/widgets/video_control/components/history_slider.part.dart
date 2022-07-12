@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:track_link/models/video_capture.dart';
 
 class DetHistorySlider extends StatefulWidget {
-  const DetHistorySlider({
-    Key? key
-  }) : super(key: key);
+  const DetHistorySlider({Key? key}) : super(key: key);
 
   @override
   State<DetHistorySlider> createState() => _DetHistorySliderState();
@@ -16,7 +14,8 @@ class _DetHistorySliderState extends State<DetHistorySlider> {
   Widget build(BuildContext context) {
     var videoCapture = context.watch<VideoCapture>();
     int maxVisibleHistory = videoCapture.getMaxVisibleHistory(10);
-    double currentSliderValue = videoCapture.getDetHistory as double;
+    double currentSliderValue = videoCapture.getDetHistory.toDouble();
+    String dispVal = currentSliderValue.round().toString();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -29,15 +28,17 @@ class _DetHistorySliderState extends State<DetHistorySlider> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
-                "$currentSliderValue",
-                textAlign: TextAlign.left,
+              SizedBox(
+                width: 25,
+                child: Text(
+                  dispVal,
+                  textAlign: TextAlign.right,
+                ),
               ),
               SliderTheme(
                 data: SliderThemeData(
-                  activeTrackColor: Colors.lightBlue[50],
-                  inactiveTrackColor: Colors.lightBlue[700]
-                ), 
+                    activeTrackColor: Colors.lightBlue[50],
+                    inactiveTrackColor: Colors.lightBlue[700]),
                 child: Slider(
                   value: currentSliderValue,
                   max: 0,
@@ -45,9 +46,9 @@ class _DetHistorySliderState extends State<DetHistorySlider> {
                   divisions: 10,
                   label: currentSliderValue.round().toString(),
                   onChanged: (double value) {
-                    if (value >= maxVisibleHistory){
+                    if (value >= maxVisibleHistory) {
                       setState(() {
-                        videoCapture.setDetHistory = value as int;
+                        videoCapture.setDetHistory = value.round().toInt();
                       });
                     }
                   },

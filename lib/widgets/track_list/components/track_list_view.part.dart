@@ -17,13 +17,11 @@ class TrackListView extends StatelessWidget {
     if (sortedIDs == null) return Container();
 
     return ListView.builder(
+      controller: ScrollController(),
       itemCount: trackList.getLength(),
       itemBuilder: (BuildContext context, int index) {
         int id = sortedIDs[index];
-        return TrackTile(
-          trackList: trackList, 
-          id: id
-        );
+        return TrackTile(trackList: trackList, id: id);
       },
     );
   }

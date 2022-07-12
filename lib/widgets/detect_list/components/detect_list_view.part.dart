@@ -19,13 +19,13 @@ class DetectListView extends StatelessWidget {
     if (numDets == null) return Container();
 
     return ListView.builder(
+      controller: ScrollController(),
       itemCount: numDets,
       itemBuilder: (BuildContext context, int index) {
         return DetectFrameTile(
-          detectList: detectList, 
-          frame: videoCapture.activeFrame,
-          index: index
-        );
+            detectList: detectList,
+            frame: videoCapture.activeFrame,
+            index: index);
       },
     );
   }
