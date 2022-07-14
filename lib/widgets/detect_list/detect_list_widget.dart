@@ -8,8 +8,9 @@ class DetectListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appBar = AppBar();
+    var testHeight = (MediaQuery.of(context).size.height - appBar.preferredSize.height) / 2;
     return SizedBox(
-      height: (MediaQuery.of(context).size.height - appBar.preferredSize.height) / 2,
+      height: (testHeight < 200) ? 200 : testHeight,
       width: 400,
       child: Column(
         children: const <Widget>[

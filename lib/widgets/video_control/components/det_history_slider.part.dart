@@ -20,9 +20,12 @@ class _DetHistorySliderState extends State<DetHistorySlider> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const Text(
-          "Visible Detection History",
-          textAlign: TextAlign.left,
+        const SizedBox(
+          width: 300,
+          child: Text(
+            "Visible Past Detections",
+            textAlign: TextAlign.left,
+          ),
         ),
         Expanded(
           child: Row(
@@ -35,23 +38,26 @@ class _DetHistorySliderState extends State<DetHistorySlider> {
                   textAlign: TextAlign.right,
                 ),
               ),
-              SliderTheme(
-                data: SliderThemeData(
-                    activeTrackColor: Colors.lightBlue[50],
-                    inactiveTrackColor: Colors.lightBlue[700]),
-                child: Slider(
-                  value: currentSliderValue,
-                  max: 0,
-                  min: -10,
-                  divisions: 10,
-                  label: currentSliderValue.round().toString(),
-                  onChanged: (double value) {
-                    if (value >= maxVisibleHistory) {
-                      setState(() {
-                        videoCapture.setDetHistory = value.round().toInt();
-                      });
-                    }
-                  },
+              SizedBox(
+                width: 300,
+                child: SliderTheme(
+                  data: SliderThemeData(
+                      activeTrackColor: Colors.lightBlue[50],
+                      inactiveTrackColor: Colors.lightBlue[700]),
+                  child: Slider(
+                    value: currentSliderValue,
+                    max: 0,
+                    min: -10,
+                    divisions: 10,
+                    label: currentSliderValue.round().toString(),
+                    onChanged: (double value) {
+                      if (value >= maxVisibleHistory) {
+                        setState(() {
+                          videoCapture.setDetHistory = value.round().toInt();
+                        });
+                      }
+                    },
+                  ),
                 ),
               ),
             ],

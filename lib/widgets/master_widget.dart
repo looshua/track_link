@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:track_link/widgets/track_list/track_list_widget.dart';
-import 'package:track_link/widgets/video_loader/video_loader_widget.dart';
 import 'package:track_link/widgets/detect_list/detect_list_widget.dart';
 import 'package:track_link/widgets/video_control/video_control_widget.dart';
+import 'package:track_link/widgets/image_display/image_display_widget.dart';
+import 'package:track_link/widgets/video_loader/video_loader_widget.dart';
 
 // Master Widget class to hold the main UI objects
 class MasterWidget extends StatelessWidget {
@@ -13,8 +14,16 @@ class MasterWidget extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Track Link'),
-        // add the see all checkbox maybe?
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.folder),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
+          ),
+        ],
       ),
+      endDrawer: const VideoLoaderWidget(),
       body: Row(
         children: <Widget>[
           Column(
@@ -26,8 +35,16 @@ class MasterWidget extends StatelessWidget {
             
           Column(
             children: const <Widget>[
-              VideoLoaderWidget(),
-              VideoControlWidget(),
+              Expanded(
+                child:  ImageDisplayWidget(),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 10,
+                  bottom: 20,
+                ),
+                child: VideoControlWidget(),
+              ),
             ],
           ),
         ],

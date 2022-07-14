@@ -1,6 +1,10 @@
 import 'package:flutter/widgets.dart';
 
 class VideoCapture extends ChangeNotifier {
+  String videoPath = "";
+  String detFilePath = "";
+  String trackFilePath = "";
+
   int activeFrame = -1;
   int maxFrames = -1;
 
