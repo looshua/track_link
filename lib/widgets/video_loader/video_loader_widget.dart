@@ -8,7 +8,8 @@ class VideoLoaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Drawer(
-      child: VideoLoaderDrawerView()
+      width: 900,
+      child: VideoLoaderDrawerView(),
     );
   }
 }
