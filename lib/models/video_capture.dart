@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'dart:io';
 
 class VideoCapture extends ChangeNotifier {
   String videoPath = "";
@@ -14,6 +15,10 @@ class VideoCapture extends ChangeNotifier {
   int _visibleTrackFuture = 0;
 
   final Map<int, String> imagePaths = {};
+
+  void loadVideo(String filePath) async {
+
+  }
 
   void deltaFrame(int delta) {
     activeFrame += delta;

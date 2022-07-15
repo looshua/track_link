@@ -23,12 +23,13 @@ class VideoLoaderDrawerView extends StatelessWidget {
             ],
           ),
         ),
-        const Flexible(
-            flex: 1,
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-              child: FilepathForm(),
-            )),
+        const Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 8,
+          ),
+          child: FilepathForm(),
+        ),
       ],
     );
   }
