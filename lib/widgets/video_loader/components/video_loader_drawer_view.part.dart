@@ -8,38 +8,31 @@ class VideoLoaderDrawerView extends StatelessWidget {
   Widget build(BuildContext context) {
     var testHeight = MediaQuery.of(context).size.height;
 
-    return SizedBox(
-      height: testHeight,
-      width: 900,
-      child: Column(
-        children: <Widget>[
-          Flexible(
-            flex: 1,
-            child: Row(
-              children: const [
-                Expanded(
-                  child: DrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Colors.orange,
-                    ),
-                    child: Text("Load Files"),
+    return Column(
+      children: <Widget>[
+        Flexible(
+          flex: 1,
+          child: Row(
+            children: const [
+              Expanded(
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
                   ),
+                  child: Text("Load Files"),
                 ),
-              ],
-            ),
-          ),
-          const Flexible(
-            flex: 1,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 16,
-                horizontal: 8
               ),
-              child: FilepathForm(),
-            )
+            ],
           ),
-        ],
-      ),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 8
+          ),
+          child: FilepathForm(),
+        )
+      ],
     );
   }
 }
