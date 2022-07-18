@@ -9,7 +9,7 @@ class VideoLoaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Drawer(
       width: 900,
-      child: VideoLoaderDrawerView()
+      child: VideoLoaderDrawerView(),
     );
   }
 }

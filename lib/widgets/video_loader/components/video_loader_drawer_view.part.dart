@@ -6,8 +6,6 @@ class VideoLoaderDrawerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var testHeight = MediaQuery.of(context).size.height;
-
     return Column(
       children: <Widget>[
         Flexible(
@@ -28,10 +26,10 @@ class VideoLoaderDrawerView extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.symmetric(
             vertical: 16,
-            horizontal: 8
+            horizontal: 8,
           ),
           child: FilepathForm(),
-        )
+        ),
       ],
     );
   }

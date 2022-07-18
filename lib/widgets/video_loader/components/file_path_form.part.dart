@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:track_link/models/video_capture.dart';
 import 'package:track_link/widgets/video_loader/components/file_path_field.part.dart';
 
+import 'dart:io';
+
 class FilepathForm extends StatefulWidget {
   const FilepathForm({Key? key}) : super(key: key);
 
@@ -11,11 +13,18 @@ class FilepathForm extends StatefulWidget {
 }
 
 class _FilepathFormState extends State<FilepathForm> {
-    final _videoPathController = TextEditingController();
-    final _detFilePathController = TextEditingController();
-    final _trackFilePathController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _videoPathController = TextEditingController();
+  final _detFilePathController = TextEditingController();
+  final _trackFilePathController = TextEditingController();
 
-    final _formKey = GlobalKey<FormState>();
+  @override
+  void dispose() {
+    _videoPathController.dispose();
+    _detFilePathController.dispose();
+    _trackFilePathController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +33,7 @@ class _FilepathFormState extends State<FilepathForm> {
     return Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start ,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: const <Widget>[
@@ -34,19 +43,17 @@ class _FilepathFormState extends State<FilepathForm> {
                     vertical: 8,
                     horizontal: 8,
                   ),
-                  child: Text("Video Path:"),    
+                  child: Text("Video Path:"),
                 ),
               ),
             ],
           ),
-          FilepathField(
-            controller: _videoPathController
-          ),
+          FilepathField(controller: _videoPathController),
           Row(
             children: [
               Container(
                 height: 50,
-              ) ,
+              ),
             ],
           ),
           Row(
@@ -57,19 +64,17 @@ class _FilepathFormState extends State<FilepathForm> {
                     vertical: 8,
                     horizontal: 8,
                   ),
-                  child: Text("Detection File Path:"),    
+                  child: Text("Detection File Path:"),
                 ),
               ),
             ],
           ),
-          FilepathField(
-            controller: _detFilePathController
-          ),
+          FilepathField(controller: _detFilePathController),
           Row(
             children: [
               Container(
                 height: 50,
-              ) ,
+              ),
             ],
           ),
           Row(
@@ -80,19 +85,17 @@ class _FilepathFormState extends State<FilepathForm> {
                     vertical: 8,
                     horizontal: 8,
                   ),
-                  child: Text("Track File Path:"),    
+                  child: Text("Track File Path:"),
                 ),
               ),
             ],
           ),
-          FilepathField(
-            controller: _trackFilePathController
-          ),
+          FilepathField(controller: _trackFilePathController),
           Row(
             children: [
               Container(
                 height: 50,
-              ) ,
+              ),
             ],
           ),
           Row(
@@ -101,9 +104,9 @@ class _FilepathFormState extends State<FilepathForm> {
                 child: Container(),
               ),
               Padding(
-                padding: const EdgeInsets.all(8), 
+                padding: const EdgeInsets.all(8),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       videoCapture.loadVideo(_videoPathController.text);
                     }
@@ -111,7 +114,7 @@ class _FilepathFormState extends State<FilepathForm> {
                   child: const Text("Load Data"),
                 ),
               ),
-            ],  
+            ],
           ),
         ],
       ),
