@@ -5,7 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:track_link/models/video_capture.dart';
 import 'package:track_link/widgets/master_widget.dart';
 
+import 'package:track_link/models/video_reader_bindings.dart';
+
 void main() {
+  VideoReader.initialize();
   runApp(const TrackLinkApp());
 }
 

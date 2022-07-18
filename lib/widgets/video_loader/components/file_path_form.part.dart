@@ -105,7 +105,7 @@ class _FilepathFormState extends State<FilepathForm> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      
+                      videoCapture.loadVideo(_videoPathController.text);
                     }
                   }, 
                   child: const Text("Load Data"),

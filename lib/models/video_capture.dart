@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'dart:io';
+import 'package:track_link/models/video_reader_bindings.dart';
 
 class VideoCapture extends ChangeNotifier {
   String videoPath = "";
@@ -16,8 +16,8 @@ class VideoCapture extends ChangeNotifier {
 
   final Map<int, String> imagePaths = {};
 
-  void loadVideo(String filePath) async {
-
+  Future<bool> loadVideo(String filePath) async {
+    return VideoReader.loadVideo(filePath);
   }
 
   void deltaFrame(int delta) {

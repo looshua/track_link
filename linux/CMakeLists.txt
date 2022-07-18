@@ -15,6 +15,7 @@ cmake_policy(SET CMP0063 NEW)
 
 # Load bundled libraries from the lib/ directory relative to the binary.
 set(CMAKE_INSTALL_RPATH "$ORIGIN/lib")
+add_subdirectory("./clib")
 
 # Root filesystem for cross-building.
 if(FLUTTER_TARGET_PLATFORM_SYSROOT)
@@ -56,7 +57,6 @@ pkg_check_modules(GTK REQUIRED IMPORTED_TARGET gtk+-3.0)
 
 add_definitions(-DAPPLICATION_ID="${APPLICATION_ID}")
 
-# add_subdirectory("$ORIGIN/lib/vidcap_src")
 
 # Define the application target. To change its name, change BINARY_NAME above,
 # not the value here, or `flutter run` will no longer work.
@@ -139,6 +139,6 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     COMPONENT Runtime)
 endif()
 
-# install(FILES "${PROJECT_BINARY_DIR}/vidcap_src/vidcap_api.so" 
-#   DESTINATION "${INSTALL_BUNDLE_LIB_DIR}" 
-#   COMPONENT Runtime)
+install(FILES "${PROJECT_BINARY_DIR}/clib/libvidcap_api.so" 
+  DESTINATION "${INSTALL_BUNDLE_LIB_DIR}" 
+  COMPONENT Runtime)
