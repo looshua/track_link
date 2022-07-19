@@ -8,7 +8,9 @@ import 'package:track_link/widgets/master_widget.dart';
 import 'package:track_link/models/video_reader_bindings.dart';
 
 void main() {
-  VideoReader.initialize();
+  if (!VideoReader.initialize()) {
+    throw Exception("Cannot initialize OpenCV bindings.");
+  }
   runApp(const TrackLinkApp());
 }
 

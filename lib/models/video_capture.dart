@@ -17,7 +17,10 @@ class VideoCapture extends ChangeNotifier {
   final Map<int, String> imagePaths = {};
 
   Future<bool> loadVideo(String filePath) async {
-    return VideoReader.loadVideo(filePath);
+    if (filePath == "") return false;
+
+    maxFrames = VideoReader.loadVideo(filePath);
+    return maxFrames > 0;
   }
 
   void deltaFrame(int delta) {
@@ -76,5 +79,9 @@ class VideoCapture extends ChangeNotifier {
     activeFrame = 0;
     maxFrames = 100;
     notifyListeners();
+  }
+
+  Future<int> testAdd(int a, int b) async {
+    return a + b;
   }
 }

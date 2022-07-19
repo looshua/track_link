@@ -106,9 +106,14 @@ class _FilepathFormState extends State<FilepathForm> {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: ElevatedButton(
-                  onPressed: () async {
+                  onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      videoCapture.loadVideo(_videoPathController.text);
+                      final readVal = videoCapture.loadVideo(_videoPathController.text);
+                      readVal.then((value){
+                        if (value) print("file read.");
+                      });
+                      if (!mounted) return;
+                      Navigator.of(context).pop();
                     }
                   }, 
                   child: const Text("Load Data"),

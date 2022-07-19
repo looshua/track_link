@@ -15,9 +15,9 @@ class VideoReader {
     return true;
   }
 
-  static bool loadVideo(String filePath) {
+  static int loadVideo(String filePath) {
     final utf8FilePath = filePath.toNativeUtf8();
-    bool res = _loadVideo(utf8FilePath) > 0;
+    int res = _loadVideo(utf8FilePath);
     calloc.free(utf8FilePath);
     return res;
   }
