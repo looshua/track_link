@@ -1,21 +1,28 @@
 import 'dart:isolate';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:track_link/models/video_reader_bindings.dart';
 
+// Wrapper for passing arguments to Isolate
 class VideoLoadArgs {
   final SendPort sendPort;
   final String filePath;
   VideoLoadArgs(this.sendPort, this.filePath);
 }
 
+// Top level function for Isolate
 void _loadVideo(VideoLoadArgs args) {
-  VideoReader.initialize();
+  if (!VideoReader.initialize()) {
+    throw Exception("Cannot initialize OpenCV bindings.");
+  }
   int mf = VideoReader.loadVideo(args.filePath);
   args.sendPort.send(mf);
 }
 
 class VideoCapture extends ChangeNotifier {
   String videoPath = "";
+  String videoName = "";
+  String imgFolderPath = "";
   String detFilePath = "";
   String trackFilePath = "";
 
@@ -29,8 +36,12 @@ class VideoCapture extends ChangeNotifier {
 
   final Map<int, String> imagePaths = {};
 
+  // Asynchronously run video loading task
   Future<void> loadVideoInBackground(String filePath) async {
     if (filePath == "") return;
+
+    imgFolderPath = filePath.split(".")[0];
+    videoName = imgFolderPath.split("/")[-1];
 
     final videoLoadPort = ReceivePort();
     VideoLoadArgs args = VideoLoadArgs(videoLoadPort.sendPort, filePath);
@@ -45,8 +56,28 @@ class VideoCapture extends ChangeNotifier {
       isolate.kill();
     });
 
-    videoPath = videoPath;
+    activeFrame = 0;
+    videoPath = filePath;
     notifyListeners();
+  }
+
+  Future<String?> getDisplayPath() async {
+    if (activeFrame == -1) return null;
+    if (videoName == "") return null;
+    if (imgFolderPath == "") return null;
+
+    String testPath = <String>[
+      imgFolderPath, 
+      imgFolderPath, 
+      "${videoName}_$activeFrame.jpg",
+    ].join("/");
+
+    if (await File(testPath).exists()) {
+      return testPath;
+    }
+    else {
+      return null;
+    }
   }
 
   void deltaFrame(int delta) {

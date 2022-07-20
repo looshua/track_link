@@ -56,9 +56,9 @@ int loadVideo(
     }
 
     vidCap.release();
-    std::cout << "Read ended with " << frameCounter << " frames." << std::endl;
+    std::cout << "Read ended with " << frameCounter - 1 << " frames." << std::endl;
 
-    return frameCounter;
+    return frameCounter - 1;
 }
 
 EXPORT
