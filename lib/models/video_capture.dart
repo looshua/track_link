@@ -1,5 +1,18 @@
-import 'package:flutter/widgets.dart';
+import 'dart:isolate';
+import 'package:flutter/foundation.dart';
 import 'package:track_link/models/video_reader_bindings.dart';
+
+class VideoLoadArgs {
+  final SendPort sendPort;
+  final String filePath;
+  VideoLoadArgs(this.sendPort, this.filePath);
+}
+
+void _loadVideo(VideoLoadArgs args) {
+  VideoReader.initialize();
+  int mf = VideoReader.loadVideo(args.filePath);
+  args.sendPort.send(mf);
+}
 
 class VideoCapture extends ChangeNotifier {
   String videoPath = "";
@@ -16,11 +29,24 @@ class VideoCapture extends ChangeNotifier {
 
   final Map<int, String> imagePaths = {};
 
-  Future<bool> loadVideo(String filePath) async {
-    if (filePath == "") return false;
+  Future<void> loadVideoInBackground(String filePath) async {
+    if (filePath == "") return;
 
-    maxFrames = VideoReader.loadVideo(filePath);
-    return maxFrames > 0;
+    final videoLoadPort = ReceivePort();
+    VideoLoadArgs args = VideoLoadArgs(videoLoadPort.sendPort, filePath);
+    final isolate = await Isolate.spawn(
+      _loadVideo, 
+      args,
+    );
+
+    videoLoadPort.listen((message) {
+      if (message > 0) maxFrames = message;
+      videoLoadPort.close();
+      isolate.kill();
+    });
+
+    videoPath = videoPath;
+    notifyListeners();
   }
 
   void deltaFrame(int delta) {
