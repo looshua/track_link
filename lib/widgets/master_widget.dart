@@ -36,7 +36,7 @@ class MasterWidget extends StatelessWidget {
           Column(
             children: const <Widget>[
               Expanded(
-                child:  ImageDisplayWidget(),
+                child: ImageDisplayWidget(),
               ),
               Padding(
                 padding: EdgeInsets.only(

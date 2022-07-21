@@ -3,6 +3,7 @@ import 'package:track_link/widgets/video_control/components/det_future_slider.pa
 import 'package:track_link/widgets/video_control/components/det_history_slider.part.dart';
 import 'package:track_link/widgets/video_control/components/track_future_slider.part.dart';
 import 'package:track_link/widgets/video_control/components/track_history_slider.part.dart';
+import 'package:track_link/widgets/video_control/components/data_controls.part.dart';
 
 class HistoryFutureView extends StatelessWidget {
   const HistoryFutureView({Key? key}) : super(key: key);
@@ -35,6 +36,7 @@ class HistoryFutureView extends StatelessWidget {
           SizedBox(
             width: fWidth - 650,
             height: 100,
+            child: const DataControls(),
           ),
           Column(
             children: const <Widget>[

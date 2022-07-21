@@ -1,23 +1,10 @@
 import 'dart:isolate';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
-import 'package:track_link/models/video_reader_bindings.dart';
 
-// Wrapper for passing arguments to Isolate
-class VideoLoadArgs {
-  final SendPort sendPort;
-  final String filePath;
-  VideoLoadArgs(this.sendPort, this.filePath);
-}
+import 'package:track_link/models/data_loading_primitives.dart';
 
-// Top level function for Isolate
-void _loadVideo(VideoLoadArgs args) {
-  if (!VideoReader.initialize()) {
-    throw Exception("Cannot initialize OpenCV bindings.");
-  }
-  int mf = VideoReader.loadVideo(args.filePath);
-  args.sendPort.send(mf);
-}
 
 class VideoCapture extends ChangeNotifier {
   String videoPath = "";
@@ -35,48 +22,94 @@ class VideoCapture extends ChangeNotifier {
   int _visibleTrackFuture = 0;
 
   final Map<int, String> imagePaths = {};
+  final Map<int, Uint8List> cachedImageFiles = {};
 
   // Asynchronously run video loading task
   Future<void> loadVideoInBackground(String filePath) async {
     if (filePath == "") return;
 
-    imgFolderPath = filePath.split(".")[0];
-    videoName = imgFolderPath.split("/")[-1];
-
     final videoLoadPort = ReceivePort();
     VideoLoadArgs args = VideoLoadArgs(videoLoadPort.sendPort, filePath);
     final isolate = await Isolate.spawn(
-      _loadVideo, 
+      loadVideo, 
       args,
     );
 
     videoLoadPort.listen((message) {
-      if (message > 0) maxFrames = message;
+      if (message > 0) {
+        maxFrames = message;
+        activeFrame = 0;
+        videoPath = filePath;
+        imgFolderPath = filePath.split(".")[0];
+        videoName = imgFolderPath.split("/").last;
+
+        notifyListeners();  
+      }
       videoLoadPort.close();
       isolate.kill();
     });
-
-    activeFrame = 0;
-    videoPath = filePath;
-    notifyListeners();
   }
 
-  Future<String?> getDisplayPath() async {
-    if (activeFrame == -1) return null;
+  String? getImagePath(int testFrame) {
     if (videoName == "") return null;
     if (imgFolderPath == "") return null;
 
     String testPath = <String>[
-      imgFolderPath, 
-      imgFolderPath, 
-      "${videoName}_$activeFrame.jpg",
+      imgFolderPath,
+      "${videoName}_$testFrame.jpg",
     ].join("/");
 
-    if (await File(testPath).exists()) {
+    if (File(testPath).existsSync()) {
       return testPath;
     }
     else {
       return null;
+    }
+  }
+
+  Future<Uint8List?> loadImage(int frameNumber) async {
+    List<int> toCacheFrames = [
+      frameNumber - 5,
+      frameNumber - 1,
+      frameNumber + 1,
+      frameNumber + 5
+    ];
+    
+    Map<int, String> filePathsToLoad = {};
+    for (var frameNum in toCacheFrames) {
+      if (!cachedImageFiles.containsKey(frameNum)) {
+        String? testPath = getImagePath(frameNum);
+        if (testPath != null) {
+          filePathsToLoad[frameNum] = testPath;
+        }
+      }
+    }
+
+    // run the caching if needed
+    if (filePathsToLoad.isNotEmpty) {
+      final imageLoadPort = ReceivePort();
+      ImageLoadArgs args = ImageLoadArgs(imageLoadPort.sendPort, filePathsToLoad);
+      final isolate = await Isolate.spawn(
+        cacheImages,
+        args
+      );
+
+      imageLoadPort.listen((message) {
+        cachedImageFiles.addAll(message);
+        isolate.kill();
+     });
+    }
+ 
+    // return a precached image immediately
+    if (cachedImageFiles.containsKey(frameNumber)) {
+      return cachedImageFiles[frameNumber];
+    }
+    // otherwise load the image
+    else {
+      String? testPath = getImagePath(frameNumber);
+      if (testPath == null) return null;
+      cachedImageFiles[frameNumber] = File(testPath).readAsBytesSync();
+      return cachedImageFiles[frameNumber];
     }
   }
 
@@ -138,7 +171,4 @@ class VideoCapture extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<int> testAdd(int a, int b) async {
-    return a + b;
-  }
 }

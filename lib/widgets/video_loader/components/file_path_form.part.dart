@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:track_link/models/video_capture.dart';
 import 'package:track_link/widgets/video_loader/components/file_path_field.part.dart';
 
-import 'dart:io';
-
 class FilepathForm extends StatefulWidget {
   const FilepathForm({Key? key}) : super(key: key);
 
