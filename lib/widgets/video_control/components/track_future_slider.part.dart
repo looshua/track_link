@@ -17,54 +17,59 @@ class _TrackFutureSliderState extends State<TrackFutureSlider> {
     double currentSliderValue = videoCapture.getTrackFuture.toDouble();
     String dispVal = currentSliderValue.round().toString();
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Expanded(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(
-                width: 300,
-                child: SliderTheme(
-                  data: SliderThemeData(
-                    activeTrackColor: Colors.lightBlue[700],
-                    inactiveTrackColor: Colors.lightBlue[50],
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Expanded(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(
+                    width: 300,
+                    child: SliderTheme(
+                      data: SliderThemeData(
+                        activeTrackColor: Colors.lightBlue[700],
+                        inactiveTrackColor: Colors.lightBlue[50],
+                      ),
+                      child: Slider(
+                        value: currentSliderValue,
+                        max: 10,
+                        min: 0,
+                        divisions: 10,
+                        label: currentSliderValue.round().toString(),
+                        onChanged: (double value) {
+                          if (value <= maxVisibleFuture) {
+                            setState(() {
+                              videoCapture.setTrackFuture = value.round().toInt();
+                            });
+                          }
+                        },
+                      ),
+                    ),
                   ),
-                  child: Slider(
-                    value: currentSliderValue,
-                    max: 10,
-                    min: 0,
-                    divisions: 10,
-                    label: currentSliderValue.round().toString(),
-                    onChanged: (double value) {
-                      if (value <= maxVisibleFuture) {
-                        setState(() {
-                          videoCapture.setTrackFuture = value.round().toInt();
-                        });
-                      }
-                    },
+                  SizedBox(
+                    width: 25,
+                    child: Text(
+                      dispVal,
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                ),
+                ],
               ),
-              SizedBox(
-                width: 25,
-                child: Text(
-                  dispVal,
-                  textAlign: TextAlign.left,
-                ),
+            ),
+            const SizedBox(
+              width: 300,
+              child: Text(
+                "Visible Future Tracks",
+                textAlign: TextAlign.right,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        const SizedBox(
-          width: 300,
-          child: Text(
-            "Visible Future Tracks",
-            textAlign: TextAlign.right,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

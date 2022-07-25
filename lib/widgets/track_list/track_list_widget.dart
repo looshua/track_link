@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:track_link/widgets/track_list/components/track_list_view.part.dart';
+import 'package:track_link/widgets/track_list/components/track_list_title_card.part.dart';
 
 class TrackListWidget extends StatelessWidget {
   const TrackListWidget({super.key});
@@ -16,7 +17,7 @@ class TrackListWidget extends StatelessWidget {
       width: 400,
       child: Column(
         children: const <Widget>[
-          Text("Tracks"),
+          TrackTitleCard(),
           Expanded(child: TrackListView()),
         ],
       ),

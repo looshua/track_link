@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:track_link/widgets/detect_list/components/detect_list_view.part.dart';
+import 'package:track_link/widgets/detect_list/components/detect_list_title_card.part.dart';
 
 class DetectListWidget extends StatelessWidget {
   const DetectListWidget({super.key});
@@ -14,7 +15,7 @@ class DetectListWidget extends StatelessWidget {
       width: 400,
       child: Column(
         children: const <Widget>[
-          Text("Detections"),
+          DetectTitleCard(),
           Expanded(
             child: DetectListView()
           ),

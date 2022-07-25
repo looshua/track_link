@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/imgcodecs.hpp>
 
@@ -50,6 +51,9 @@ int loadVideo(
         std::ostringstream oss;
         oss << rawFileName << "/" << videoName << "_" << frameCounter << ".jpg";
         std::string frameName = oss.str();
+
+        cv::Mat writeFrame;
+        cv::resize(readFrame, writeFrame, cv::Size(), 0.5, 0.5);
 
         cv::imwrite(frameName, readFrame);
         frameCounter++;

@@ -17,53 +17,58 @@ class _TrackHistorySliderState extends State<TrackHistorySlider> {
     double currentSliderValue = videoCapture.getTrackHistory.toDouble();
     String dispVal = currentSliderValue.round().toString();
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Expanded(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(
-                width: 25,
-                child: Text(
-                  dispVal,
-                  textAlign: TextAlign.right,
-                ),
-              ),
-              SizedBox(
-                width: 300,
-                child: SliderTheme(
-                  data: SliderThemeData(
-                      activeTrackColor: Colors.lightBlue[50],
-                      inactiveTrackColor: Colors.lightBlue[700]),
-                  child: Slider(
-                    value: currentSliderValue,
-                    max: 0,
-                    min: -10,
-                    divisions: 10,
-                    label: currentSliderValue.round().toString(),
-                    onChanged: (double value) {
-                      if (value >= maxVisibleHistory) {
-                        setState(() {
-                          videoCapture.setTrackHistory = value.round().toInt();
-                        });
-                      }
-                    },
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Expanded(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(
+                    width: 25,
+                    child: Text(
+                      dispVal,
+                      textAlign: TextAlign.right,
+                    ),
                   ),
-                ),
+                  SizedBox(
+                    width: 300,
+                    child: SliderTheme(
+                      data: SliderThemeData(
+                          activeTrackColor: Colors.lightBlue[50],
+                          inactiveTrackColor: Colors.lightBlue[700]),
+                      child: Slider(
+                        value: currentSliderValue,
+                        max: 0,
+                        min: -10,
+                        divisions: 10,
+                        label: currentSliderValue.round().toString(),
+                        onChanged: (double value) {
+                          if (value >= maxVisibleHistory) {
+                            setState(() {
+                              videoCapture.setTrackHistory = value.round().toInt();
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              width: 300,
+              child: Text(
+                "Visible Past Tracks",
+                textAlign: TextAlign.left,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(
-          width: 300,
-          child: Text(
-            "Visible Past Tracks",
-            textAlign: TextAlign.left,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

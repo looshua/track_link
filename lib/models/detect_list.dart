@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 class DetectList extends ChangeNotifier {
   final Map<int,List<TargetObject>> _detectData = {};
+  bool _visible = true;
 
   void addTarget(TargetObject target) {
     TargetObject toAdd = TargetObject.fromTarget(target.frame, -1, target.bbox);
@@ -30,6 +31,13 @@ class DetectList extends ChangeNotifier {
   int? getFrameNum(int frame) {
     return _detectData[frame]?.length;
   }
+
+  void toggleVisibility() {
+    _visible = !_visible;
+    notifyListeners();
+  }
+
+  bool get visible => _visible;
 
   void addDummyTrack(int n) {
     for (int i = 0; i < n; ++i) {

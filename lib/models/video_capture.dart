@@ -1,7 +1,7 @@
 import 'dart:isolate';
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:flutter/foundation.dart';
+// import 'dart:typed_data';
+import 'package:flutter/widgets.dart';
 
 import 'package:track_link/models/data_loading_primitives.dart';
 
@@ -22,7 +22,9 @@ class VideoCapture extends ChangeNotifier {
   int _visibleTrackFuture = 0;
 
   final Map<int, String> imagePaths = {};
-  final Map<int, Uint8List> cachedImageFiles = {};
+  final Map<int, CacheImageProvider> cachedImageFiles = {};
+
+  bool loadingState = false;
 
   // Asynchronously run video loading task
   Future<void> loadVideoInBackground(String filePath) async {
@@ -34,8 +36,11 @@ class VideoCapture extends ChangeNotifier {
       loadVideo, 
       args,
     );
+    loadingState = true;
+    notifyListeners();
 
     videoLoadPort.listen((message) {
+      loadingState = false;
       if (message > 0) {
         maxFrames = message;
         activeFrame = 0;
@@ -67,7 +72,7 @@ class VideoCapture extends ChangeNotifier {
     }
   }
 
-  Future<Uint8List?> loadImage(int frameNumber) async {
+  Future<CacheImageProvider?> loadImage(int frameNumber) async {
     List<int> toCacheFrames = [
       frameNumber - 5,
       frameNumber - 1,
@@ -95,7 +100,9 @@ class VideoCapture extends ChangeNotifier {
       );
 
       imageLoadPort.listen((message) {
-        cachedImageFiles.addAll(message);
+        for (var k in message.keys) {
+          cachedImageFiles[k] = CacheImageProvider(k.toString(), message[k]);
+        }
         isolate.kill();
      });
     }
@@ -108,7 +115,10 @@ class VideoCapture extends ChangeNotifier {
     else {
       String? testPath = getImagePath(frameNumber);
       if (testPath == null) return null;
-      cachedImageFiles[frameNumber] = File(testPath).readAsBytesSync();
+      cachedImageFiles[frameNumber] = CacheImageProvider(
+        frameNumber.toString(), 
+        File(testPath).readAsBytesSync(),
+      );
       return cachedImageFiles[frameNumber];
     }
   }

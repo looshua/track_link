@@ -5,6 +5,8 @@ class TrackList extends ChangeNotifier {
   final Map<int, TrackObject> _trackData = {};
   int _idCounter = 0;
 
+  bool _visible = true;
+
   TrackList(this._idCounter);
 
   void addTrack(TrackObject track) {
@@ -43,6 +45,13 @@ class TrackList extends ChangeNotifier {
   List<int>? getTrackIDsSorted() {
     return _trackData.keys.toList()..sort();
   }
+
+  void toggleVisibility() {
+    _visible = !_visible;
+    notifyListeners();
+  }
+
+  bool get visible => _visible;
 
   void addDummyTrack() {
     TrackObject dummy = TrackObject(_idCounter);

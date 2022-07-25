@@ -14,7 +14,7 @@ class HistoryFutureView extends StatelessWidget {
     var fWidth = (testWidth < 1000) ? 1000 : testWidth;
 
     return SizedBox(
-      height: 100,
+      height: 140,
       width: fWidth.toDouble(),
       child: Row( 
         children: <Widget>[
@@ -34,8 +34,8 @@ class HistoryFutureView extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: fWidth - 650,
-            height: 100,
+            width: fWidth - 698,
+            height: 140,
             child: const DataControls(),
           ),
           Column(
