@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DrawingListener extends StatelessWidget {
-  const DrawingListener({Key? key}) : super(key: key);
+class BoxDrawingListener extends StatelessWidget {
+  const BoxDrawingListener({Key? key}) : super(key: key);
 
   void _initBoxDraw(PointerEvent click) {
 

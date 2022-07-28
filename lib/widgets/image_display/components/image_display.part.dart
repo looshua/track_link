@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:track_link/models/video_capture.dart';
 import 'package:provider/provider.dart';
-// import 'package:transparent_image/transparent_image.dart';
+import 'package:transparent_image/transparent_image.dart';
 import 'package:track_link/models/data_loading_primitives.dart';
 // import 'dart:typed_data';
 
-class MainImageDisplay extends StatelessWidget {
+class MainImageDisplay extends StatefulWidget {
   const MainImageDisplay({Key? key}) : super(key: key);
+
+  @override
+  State<MainImageDisplay> createState() => _MainImageDisplayState();
+}
+
+class _MainImageDisplayState extends State<MainImageDisplay> {
+  CacheImageProvider _savedSnapshot = CacheImageProvider(
+    "saved", 
+    kTransparentImage
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +26,15 @@ class MainImageDisplay extends StatelessWidget {
       return Stack(
         children: [
           const Center(child: CircularProgressIndicator()),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Center(
+              child: FadeInImage(
+                placeholder: MemoryImage(kTransparentImage),
+                image: _savedSnapshot,
+              ),
+            ),
+          ),
           FutureBuilder<CacheImageProvider?>(
             future: videoCapture.loadImage(videoCapture.activeFrame),
             builder: (context, snapshot) {
@@ -35,22 +54,22 @@ class MainImageDisplay extends StatelessWidget {
                   );
                 }
                 else {
+                  _savedSnapshot = snapshot.data!;
                   return Padding(
                     padding: const EdgeInsets.all(24.0),
                     child: Center(
                       child: Image(
                         image: snapshot.data!,
-                      // FadeInImage(
-                      //   placeholder: MemoryImage(kTransparentImage),
-                      //   image: snapshot.data!,
                       ),
                     ),
                   );
                 }
               }
               else {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: Image(
+                    image: _savedSnapshot
+                  ),
                 );
               }
             },
